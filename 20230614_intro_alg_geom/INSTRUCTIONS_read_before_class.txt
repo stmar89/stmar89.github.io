@@ -1,0 +1,35 @@
+#####################################################################
+### Computational class for "Introduction to Algebraic Varieties" ###
+#####################################################################
+Contact: Stefano Marseglia - s.marseglia@uu.nl
+
+### Read carefully BEFORE the class ###
+
+ - Bring with you your Solis ID (number)
+ - You will need to enter your Solis ID password. Make sure that you remember it!
+ - Bring with you your laptop with charged battery or with the charger.
+ - We will need to use a terminal to login into the 'gemini' server at UU:
+    + if you are a MacOS or Linux user then you should already have a terminal in your system.
+    + if you are a Windows user then there are two possibilities:
+
+    1) Use ssh in PowerShell.
+       You can find PowerShell in the Start menu.
+       You might need to use the "Run as administrator" option, which is accessible by a right click with the mouse.
+
+    2) (more advanced) Install the Windows Subsystem for Linux (WSL):
+       This installs a copy of Ubuntu in your Windows system.
+       It works very well, and it allow to use all unix programs and commands inside windows, making many tasks easier.
+       For example, you will be able to connect via ssh to a server, and upload and download files.
+       To install the WSL follow the instructions from the following link:
+       https://docs.microsoft.com/en-us/windows/wsl/install
+       (Another advantage is that you compile your LaTex files in Linux instead of Windows. This is much faster!
+       The easiest way to do so is to use VisualStudioCode together with the "Remote - SSH" extension.)
+       Tip: to figure out in which folder you are in WSL use: 'explorer.exe .'
+
+    3) (outdated, only for old versions of Windows) Use putty. 
+       This is only an ssh terminal which will allow you to connect to the server, but no other commands are available.
+       putty does not require installation. You should download the file putty.exe from:
+       https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+
+ - If you encounter any issue you can contact me by email or find me (most days) in my office 4.05 in the Hans Freudenthalgebouw.
+

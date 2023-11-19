@@ -1,0 +1,14 @@
+Let's assume that you don't want to type code directly in the server. For example because your connection is laggy, or you don't like vim.
+Then you can do the following. (Tested on Linux on Windows via WSL. On Mac, one might need to install sleep and rsync beforehand.)
+	
+- Create the file where will you type the code with you favorite text editor. Let's call it 'script'.
+- Open the terminal on you computer.	
+- Type (enter the missing parts. explaination below)
+	while true; do sleep 1; rsync ~/[path-to-folder]/script [your-solis-id]@gemini.science.uu.nl:~/[destination-folderd]; done	
+- Explaination:
+	In the while loop, sleep forces the computer to wait 1 second.
+	Then executes rsync which sends a copy of script to the destination folder.
+	If you want to let the above while loop run in the background, then add & at the end of the command:
+	while true; do sleep 1; rsync ~/[path-to-folder]/script [your-solis-id]004@gemini.science.uu.nl:~/[destination-folderd]; done &
+- Now you can keep editing script with you favorite text editor. Whenever you save the changes, the copy on the server will be automatically updated within 1 second. You can reduce the time, if needed by setting sleep 0.1, for example.	
+- The while loop will keep running as long as you have the terminal open.

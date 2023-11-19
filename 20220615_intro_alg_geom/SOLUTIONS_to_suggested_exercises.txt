@@ -1,0 +1,133 @@
+/*
+### Fulton 3.2 ###
+    Find the multiple points, and the tangent lines at the multiple points, for each
+    of the following curves.
+*/
+
+
+    //(b)
+        k:=Rationals();
+        A2<X,Y>:=AffineSpace(k,2);
+        V:=Curve(A2,X^4+Y^4-X^2*Y^2);
+        IsNonSingular(V);
+        pp:=Points(SingularSubscheme(V));
+        pp;
+        Multiplicity(pp[1]);
+        TangentCone(V,pp[1]);
+        t:=DefiningEquation($1); t;
+        Factorization(t);
+    // need to extend
+        _<u>:=PolynomialRing(k);
+        K<s>:=NumberField(u^4-u^2+1);
+    // change ring
+        V:=ChangeRing(V,K);
+        A2<X,Y>:=AmbientSpace(V);
+        P:=V!Eltseq(pp[1]);
+        TangentCone(V,P);
+        t:=DefiningEquation($1); t;
+        Factorization(t);
+    // the factors correspond to the tangent lines
+
+
+    //(c)
+        k:=Rationals();
+        A2<X,Y>:=AffineSpace(k,2);
+        V:=Curve(A2,X^3+Y^3-3*X^2-3*Y^2+3*X*Y+1);
+        IsNonSingular(V);
+        pp:=Points(SingularSubscheme(V)); pp;
+        P:=pp[1];
+    // change of coordinates to move the unique singular point to the origin
+        phi:=map<A2->A2 | [X-P[1],Y-P[2]]>;
+        V:=phi(V);
+        P:=V!phi(P);
+
+        Multiplicity(P);
+        TangentCone(V,P);
+    // we see immediately that the tangent lines are X = 0 and Y = 0
+
+
+/*
+### Fulton 5.2 ###
+    Show that the following curves are irreducible; find their multiple points, and
+    the multiplicities and tangents at the multiple points.
+*/
+
+    k:=Rationals();
+    P2<X,Y,Z>:=ProjectiveSpace(k,2);
+
+    // b)
+        C:=Curve(P2,X^2*Y^3+X^2*Z^3+Y^2*Z^3);
+        IsIrreducible(C);
+        IsNonSingular(C);
+        S:=SingularSubscheme(C);
+        pps:=Points(S);
+        assert #pps eq #PointsOverSplittingField(S);
+        for P in pps do
+           P;
+           Multiplicity(C,P);
+           TangentCone(C,P);
+        end for;
+    // in order to see the tangent lines for all points we need two roots:
+        _<u>:=PolynomialRing(k);
+        K<s>:=SplittingField((u^2+1)*(u^3+1));
+    // change ring
+        C:=ChangeRing(C,K);
+        P2<X,Y,Z>:=AmbientSpace(C);
+    // repeat the study
+        S:=SingularSubscheme(C);
+        pps:=Points(S);
+        for P in pps do
+           P;
+           Multiplicity(C,P);
+           TangentCone(C,P);
+           Factorization(DefiningPolynomial($1));
+        end for;
+
+    // d)
+        for n in [1..100] do
+            C:=Curve(P2,X^n+Y^n+Z^n); C;
+            IsIrreducible(C);
+            IsNonSingular(C);
+        end for;
+
+/*
+### Fulton 5.3 ###
+    Find all points of intersection of the following pairs of curves, and the intersection
+    numbers at these points.
+*/
+
+        k:=Rationals();
+        P2<X,Y,Z>:=ProjectiveSpace(k,2);
+
+    // (b)
+        C1:=Curve(P2,(X^2+Y^2)*Z+X^3+Y^3);
+        C2:=Curve(P2,X^3+Y^3-2*X*Y*Z);
+        Degree(C1)*Degree(C2);
+        int:=IntersectionNumbers(C1,C2); int;
+        MinimalPolynomial(int[3][1][1]);
+
+    // (c)
+        C1:=Curve(P2,Y^5-X*(Y^2-X*Z)^2);
+        C2:=Curve(P2,Y^4+Y^3*Z-X^2*Z^2);
+        Degree(C1)*Degree(C2);
+        int:=IntersectionNumbers(C1,C2); int;
+        MinimalPolynomial(int[3][1][1]);
+
+    // (d)
+        C1:=Curve(P2,(X^2+Y^2)^2+3*X^2*Y*Z-Y^3*Z);
+        C2:=Curve(P2,(X^2+Y^2)^3-4*X^2*Y^2*Z^2);
+        Degree(C1)*Degree(C2);
+        int:=IntersectionNumbers(C1,C2); int;
+        m1:=MinimalPolynomial(int[1][1][1]); m1;
+        MinimalPolynomial(int[3][1][1]);
+        m2:=MinimalPolynomial(int[3][1][1],Rationals()); m2;
+        MinimalPolynomial(int[3][1][2]);
+        m3:=MinimalPolynomial(int[3][1][2],Rationals()); m3;
+
+    // let's check Bezout!
+        Degree(m1)*int[1][2] + Degree(m2)*Degree(m3)*int[3][2] + int[2][2]; //this is wrong! why?
+
+    //the issue is that the number field defined by m3 is a subfield of m2.
+        Degree(m1)*int[1][2] + Degree(SplittingField(m2*m3))*int[3][2] + int[2][2];
+    // et voilá!
+

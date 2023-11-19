@@ -1,0 +1,302 @@
+#####################################################################
+### Computational class for "Introduction to Algebraic Varieties" ###
+#####################################################################
+Contact: Stefano Marseglia - s.marseglia@uu.nl
+
+### How to login into the server ###
+ - if you are a MacOS, Linux user or you have installed the WSL on your Windows system then:
+       * to login into the server, open a terminal and use the following command:
+       ssh [your-Solis-ID]@gemini.science.uu.nl
+       
+       You will be asked your password. When you type it in, the cursor will not move: it is normal.
+       If you have never accessed this server before, you might be asked for an extra confirmation.
+
+ - if you are a Windows user and you are using putty.exe then:
+       * to login into the server go thorugh the following steps: 
+             open 'putty.exe' (it is safe, no worries!)
+             in 'Host Name' type: gemini.science.uu.nl
+             in 'Port': 22
+             Connection Type: SSH
+             press 'Open'
+             login as: [your-Solis-ID]
+             enter your password.
+
+### How to access Magma ###
+ - once you are logged into the server you should see something like the following:
+    [your-Solis-id]@science-bs35:~$
+ - to open Magma, enter the following two commands:
+    module load magma
+    magma
+
+ - now you are inside Magma and can start computing! Have fun!
+ - you can start by looking at the section 'First steps in Magma' below.
+
+### How to close Magma and logout ###
+ - you can either close directly the terminal, or
+ - press Ctrl-D (Windows/Linux) or CMD-D (MacOS) once to get out of Magma and twice to log out of the server.
+
+### More stuff ###
+ - more commends and things you can do can be found on my webpage at
+     https://webspace.science.uu.nl/~marse004/gemini_seminar.html
+
+### First steps in Magma ###
+
+    // Welcome to Magma.
+    // Comments are preceded by // or enclosed between /* and */
+    // The documentation can be found at http://magma.maths.usyd.edu.au/magma/handbook/
+    // Here are some basic functionalities.
+
+    // every command should be followed by ;
+        2+2;
+    // assign and print a variable:
+        l:=2;
+        l;
+    // to unassigne all variables:
+        clear;
+        l;
+    // polynomials in one variable x over the Q
+        P<x>:=PolynomialRing(Rationals());
+        f:=x^3+x^2+x;
+        f;
+        Evaluate(f,5);
+        Factorization(f);
+        IsIrreducible(f);
+        Coefficients(f);
+
+    // roots over the base field, that is Q
+        Roots(f); // the first entry of the pair is the root, the second is the multiplicity
+    // if you want the real roots
+        Roots(f,RealField());
+        Roots(f,ComplexField());
+    // if you want to know more about the function Root, you can use
+        Roots;
+    // to get concise informations about input and output, or
+        ? Roots;
+    // and then follow the instructions to know everything about it.
+
+
+    // polynomials in more variables over a finite field
+        P<x,y,z,w>:=PolynomialRing(FiniteField(25),4);
+        5*x*y*z eq 0;
+        g:=x^2+y^2+z^2+x^5;
+        Evaluate(g,[x,0,w,w]);
+        Factorization($1); //$1 refers to the last output
+        IsIrreducible(g);
+    // to get the coefficients we have to pay attention.
+        Coefficients(g); //they are sorted in a 'weird' way.
+    // to get the coefficients wrt to the ith variable use
+        Coefficients(g,1);
+        Coefficients(g,2);
+        Coefficients(g,3);
+        Coefficients(g,4);
+
+    // we cannot factor polynomils over C!
+        P<x>:=PolynomialRing(ComplexField());
+        f:=(x-1)*(x+1);
+        Factorization(f);
+    //but we can find the roots
+        Roots(f);
+
+### Let's solve some exercises from Fulton ###
+
+/* 
+### Fulton 1.25, but over the rationals Q. ###
+    (a) Show that V(Y-X^2) \subset A^2(CC) is irreducible; in fact, I(V(Y-X^2)) = (Y-X^2).
+    (b) Decompose V(Y^4-X^2,Y^4-X^2Y^2+XY^2-X^3) \subset A^2(CC) into irreducible components.
+    Solution:
+*/
+
+        clear;
+    // (a)
+        A2<X,Y>:=AffineSpace(Rationals(),2); // A^2(QQ)
+        V:=Curve(A2,Y-X^2); // one can also use V:=Scheme(A2,Y-X^2);
+        IsIrreducible(V);
+
+    // (b) here we need to use the constructor with the ideal, 
+    // since we have more than one equation
+        RA2:=CoordinateRing(A2);
+        V:=Curve(A2,ideal<RA2 | Y^4-X^2,Y^4-X^2*Y^2+X*Y^2-X^3>);
+        IsIrreducible(V);
+        PrimaryComponents(V); //irreducible but not necessarily reduced
+        PrimeComponents(V); //reduced and irreducible
+
+/*
+### Fulton 2.12 ###
+    (a) Let phi:A^1->V=V(Y^2-X^3) in A^2 be defined by phi(t)=(t^2,t^3).
+    Show that phi is not an isomorphism.
+    (b) Let phi:A^1-> V=V(Y^2-X^2(X+1)) be defined by phi(t)=(t^2-1,t(t^2-1)).
+    Show that phi(t) is not one-to-one at 1 and -1.
+*/
+        clear;
+        k:=Rationals();
+        A1<t>:=AffineSpace(k,1);
+        A2<X,Y>:=AffineSpace(k,2);
+
+    // (a)
+        V:=Scheme(A2,Y^2-X^3);
+        phi:=map<A1->V| [t^2,t^3]>;
+        IsIsomorphism(phi);
+        Image(phi) eq V;
+
+    // (b)
+        V:=Scheme(A2,Y^2-X^2*(X+1));
+        phi:=map<A1->V| [t^2-1,t*(t^2-1)] >;
+        P:= A1![1];
+        Q:= A1![-1];
+        phi(P) eq phi(Q);
+        phi(P);
+
+/*
+### Fulton 3.2 ###
+    Find the multiple points, and the tangent lines at the multiple points, for each
+    of the following curves.
+*/
+
+
+    //(a)
+        clear;
+        k:=Rationals();
+        A2<X,Y>:=AffineSpace(k,2);
+        V:=Curve(A2,Y^3-Y^2+X^3-X^2+3*X*Y^2+3*X^2*Y+2*X*Y);
+        IsNonSingular(V);
+    // let's look at the singular locus 
+        S:=SingularSubscheme(V); S;
+        Points(S);
+    // We study the singular point
+        P:=$1[1];
+        Parent(P);
+        P:=V!P;
+        Parent(P);
+        IsSingular(P);
+        IsCusp(P);
+        IsNode(P);
+        IsOrdinarySingularity(P);
+    // multiplicity and tagent lines
+        Multiplicity(P);
+        TangentCone(P);
+        Factorization(DefiningEquation($1));
+        L:=Curve(A2,$1[1][1]); L;
+        IsTangent(V,L,P);
+
+    //(d)
+        clear;
+        k:=Rationals();
+        A2<X,Y>:=AffineSpace(k,2);
+        V:=Curve(A2,Y^2+(X^2-5)*(4*X^4-20*X^2+25));
+        IsNonSingular(V);
+        S:=SingularSubscheme(V);
+        Points(S);
+    // no points are found! There is something going on here!
+    // any guesses?
+
+        pp:=PointsOverSplittingField(S); pp;
+        K:=Parent(pp[1][1]); K;
+        VK:=BaseChange(V,K);
+        SK:=SingularSubscheme(VK);
+        pps:=Points(SK); pps;
+
+    // let's pick the first point and find the tangent lines, multiplicitites, etc
+        P:=VK!pps[1];
+        Multiplicity(P);
+    // in order to find the tangent lines we we'll need to factor a polynomial. 
+    // K does not admit a factorization algorithm. So we trick Magma and redifine it.
+        K<a>:=NumberField(MinimalPolynomial(pp[1][1])); 
+    // this is a finite extension of Q, and Magma knows how to factor polynomials here
+        VK:=BaseChange(V,K);
+        A2K<u,v>:=AmbientSpace(VK);
+        SK:=SingularSubscheme(VK);
+        pps:=Points(SK); pps;
+        P:=pps[1];
+        TangentCone(VK,P);
+        Factorization(DefiningEquation($1));
+        tangent_eqs:=[ $1[1,1] ,$1[2,1] ];
+        for f in tangent_eqs do
+            L:=Curve(AmbientSpace(VK),f); L;
+            IsTangent(VK,L,P);
+        end for;
+
+/*
+### Fulton 5.2 ###
+    Show that the following curves are irreducible; find their multiple points, and
+    the multiplicities and tangents at the multiple points.
+*/
+        clear;
+        k:=Rationals();
+        P2<X,Y,Z>:=ProjectiveSpace(k,2);
+
+    // a)
+        C:=Curve(P2,X*Y^4+Y*Z^4+X*Z^4);
+        IsIrreducible(C);
+        IsNonSingular(C);
+        S:=SingularSubscheme(C);
+        pps:=Points(S); pps;
+        assert #pps eq #PointsOverSplittingField(S);
+
+        P:=C!pps[1]; P;
+        Multiplicity(C!P);
+    // the point P is on the affine patch X \neq 0.
+        t:=DefiningPolynomial(TangentCone(C,P)); t;
+    // to factor this polynomial we need to add 4th roots of -1
+        _<u>:=PolynomialRing(k);
+        K<s>:=NumberField(u^4+1);
+    // we change the base ring
+        CK:=ChangeRing(C,K);
+        P2K<X,Y,Z>:=AmbientSpace(CK);
+        P:=P2K ! Eltseq(P); P;
+        fac:=Factorization(CoordinateRing(P2K)!(Y^4+Z^4)); fac;
+
+        lines:=[ Curve(P2K , factor[1]) : factor in fac ]; lines;
+
+        for L in lines do
+            IsTangent(CK,L,P);
+        end for;
+
+/*
+### Fulton 5.3 ###
+Find all points of intersection of the following pairs of curves, and the intersection
+numbers at these points.
+*/
+
+        k:=Rationals();
+        P2<X,Y,Z>:=ProjectiveSpace(k,2);
+
+    // (a)
+        C1:=Curve(P2,Y^2*Z-X*(X-2*Z)*(X+Z));
+        C2:=Curve(P2,Y^2+X^2-2*X*Z);
+        int:=IntersectionPoints(C1,C2); int;
+        for P in int do
+            IntersectionNumber(C1,C2,P);
+        end for;
+    // this is a bit weird. By Bezout, we should get 6, not 4!
+        Degree(C1)*Degree(C2);
+
+    // Magma has a special command "IntersectionNumbers" to compute the intersections over field extensions. Note that it is not the same as the one we used above "IntersectionPoints".
+        int:=IntersectionNumbers(C1,C2); int;
+    // are we still missing one point? no...it just prints the output in a weird way...
+        K:=Parent(int[1][1][2]); K;
+        P2K:=ProjectiveSpace(K,2);
+        C1K:=BaseChange(C1,P2K);
+        C2K:=BaseChange(C2,P2K);
+        intK:=IntersectionPoints(C1K,C2K); intK;
+        for P in intK do
+            IntersectionNumber(C1K,C2K,P);
+        end for;
+    // and we get 6, so we are happy!
+
+### Suggested Exercises ####
+    - Fulton 3.2 (b), (c)
+    Note that in 3.2 (c) it might be useful to define a change of coordinates (using phi:=map<A2->A2 | ... > ) that sends the singular point into the origin.
+    - Fulton 5.2 (b), (c) for various lambda, (d)
+    - Fulton 5.3 (b), (c), (d) interesting!
+
+### Extra Material ###
+    If you want to play a bit more, I suggest to read chapter 7 of Fulton, which is about Blow-ups and resolution of singularities of curves.
+    Magma has functionality to compute blow ups. Try to dig into the documentation and solve Exercises 7.2 and 7.9 from Fulton.
+
+
+
+
+
+
+
+

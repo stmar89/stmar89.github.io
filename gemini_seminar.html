@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <title>Stefano Marseglia's webpage </title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- <script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-67837573-1', 'auto');
+	ga('send', 'pageview');
+      </script> -->
+      <!-- Latest compiled and minified CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+      <!-- jQuery library -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      <!-- Latest compiled JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
+
+
+<body>
+<div class="container">
+	<div class="jumbotron" style="text-align: center;">
+		<h1>Stefano Marseglia</h1><br>
+		<div class="row">
+			<a href="index.html" class="btn btn-primary btn-lg" role="button">Home</a>
+			<a href="teaching.html" class="btn btn-primary btn-lg" role="button">Teaching</a>
+			<a href="research.html" class="btn btn-primary btn-lg" role="button">Research</a>
+		</div>
+	</div>
+	<br>
+
+	<div class="row">
+
+		<div class="col-sm-12">
+            The following is a collection of useful commands and Tips to start using magma on the UU server Gemini.
+            <ol>
+                <li>
+                    Basics
+                    <ul>
+                        <li>
+                            First you will need some kind of terminal with <code>ssh</code> installed.<br>
+                            If you are a Linux or MacOS user, then you are good to go. <br>
+                            If you are using Windows, then you can use <code>ssh</code> in <code>Powershell</code>, or use the Windows Subsystem for Linux (WSL) and install a Linux distro. <br>
+                            (I use and recommend the latter: you can then manipulate all your files using Linux programmes and the integration works very well. Tip: to figure out in which folder you are in WSL use <code>explorer.exe .</code>). 
+                        </li>
+                        <li>
+                            Login into the server: <br>
+                            <code>ssh [your-student-number/Solis-ID]@gemini.science.uu.nl</code>
+                        </li>
+                        <li>
+                            You will be asked the password every time.
+                            In order to skip this step when you are logging in from you laptop, you can generate an RSA Key and upload the public key.
+                            Note that if you already have an RSA key, you can reuse the same public key.<br>
+                            This is nicely explained in <a href=http://www.linuxproblem.org/art_9.html><i>this</i></a> online tutorial.
+                        </li>
+                        <li>
+                            Basic Linux commands at <a href=https://www.dummies.com/computers/operating-systems/linux/common-linux-commands/><i>this</i></a> link.<br>
+                            The most important ones are <code>cd, ls, mv, cp, rm, mkdir, rmdir, cat</code>.<br>
+                            In order to access the complete documentation of a command use <code>man [command]</code>. For example <code>man ls</code>.<br>
+                            Important: <code>rm</code> permanently deletes a file!
+                        </li>
+                        <li>
+                            If you want to re-run a command that you have already used, you don't have to re-type it:<br>
+                            use the up/down arrows to move in the history of what have you typed in before, modify the command and run it.<br>
+                            This trick is particularly useful if you made a typo while writing a command.
+                        </li>
+                        <li>
+                            The standard bash settings on gemini are not the best one. For example, it does not tell you in which folder you are.<br>
+                            To do so you can add settings to the .bashrc file which you can find in you home folder. If the files is not there you can create a new one.<br>
+                            At the following link you can find what <a href=https://webspace.science.uu.nl/~marse004/bashrc><i>my .bashrc</i></a> looks like.
+                        </li>
+                        <li>
+                            It is useful to create aliases to avoid typing always the same commands:<br>
+                            see <a href=https://www.cyberciti.biz/faq/create-permanent-bash-alias-linux-unix/><i>this link</i></a>.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Move/Modify files
+                    <ul>
+                        <li>
+                            To upload <em>file.txt</em> to gemini:<br>
+                            <code>scp file.txt [your-student-number/Solis-ID]@gemini.science.uu.nl:~/[destination folder]</code><br>
+                            The destination folder has to already exist.
+                        </li>
+                        <li>
+                            To download a file from gemini:<br>
+                            <code>scp [your-student-number/Solis-ID]@gemini.science.uu.nl:~/[path to file] ./</code><br>
+                            The command <code>./</code> means the current folder.
+                        </li>
+                        <li>
+                            One can also edit text files directly on the server, for example with <code>vim</code>, <code>emacs</code> or <code>nano</code>.<br>
+                            If the connection is not stable or has a lag, this approach can become quite frustrating.<br>
+                            There are editors such as <code>VisualStudioCode</code> with packages for continuous synchronization of local files to a server.<br>
+                            Or, you can experiment with the following <a href="scripts/continuous_sync.txt"><i>script</i></a> I wrote.<br>
+                            (I write directly my code on the server using <code>vim</code>.)
+                        </li>
+                        <li>
+                            If you want to synchronize a large number of files between different machines, I suggest to use <code>rsync</code>.<br>
+                        </li>
+                        <li>
+                            In order to download a file from the web you can use the command <code>wget</code> followed by the link to the file.
+                        </li>
+                        <li>
+                            Advanced: If you are developing a package, you can use <code>git</code> and <code>GitHub</code>.<br>
+                            This is typically where programmers publish their code.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Running computations
+                    <ul>
+                        <li> Once you are on gemini, to open Magma type the following commands:<br>
+                            <code>module load magma</code><br>
+                            <code>magma</code>
+                        </li>
+                        <li>
+                            The commands to load packages in Magma are <code>Attach()</code>, <code>AttachSpec()</code> and <code>load</code>.<br>
+                            You can also immediately load a package while opening magma with <code>magma your_file</code><br>.
+                            While doing this you can also assign variables:
+                            Say that in <code>your_file</code> you have an unassigned variable <code>var</code>, then you  with <code>magma your_file var:=10</code><br>,
+                            you will assign it to <code>10</code>.
+                            Note that <code>10</code> will be read as a string (and not an integer!). So you have to evaluate it inside the program.<br>
+                            See the <a href=https://magma.maths.usyd.edu.au/magma/handbook/><i>Magma documentation</i></a> for more info.<br>
+                            (It might complain that it is not a 'safe' website....go figure...)
+                        </li>
+                        <li>
+                            If you want to run a long computation, then use the command <code>screen</code>.
+                            It allows you to detach from the current screen and let it run the background.
+                        </li>
+                        <li>
+                            Advanced: The server gemini has several cores.
+                            If you want to use simultaneously more than one core, you can use <code>parallel</code>.<br>
+                            Don't forget that gemini is used by several department! Don't run long parallel computations!<br>
+                            gemini has a queue system, which I haven't used yet.
+                        </li>
+                    </ul>
+		</div>
+	</div>
+</div>
+</body>
+
+</html>
