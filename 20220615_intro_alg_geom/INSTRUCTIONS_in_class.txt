@@ -62,6 +62,9 @@ Contact: Stefano Marseglia - s.marseglia@uu.nl
         Factorization(f);
         IsIrreducible(f);
         Coefficients(f);
+    
+    // to locate the code where an intrinsic is defined use <name of intrinisc>:Maximal;
+        eg. EtaleAlgebra:Maximal;
 
     // roots over the base field, that is Q
         Roots(f); // the first entry of the pair is the root, the second is the multiplicity
