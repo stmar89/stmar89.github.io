@@ -121,13 +121,26 @@
 	</div>
 </div>
 
+<!-- Last modified in the footer -->
 <div id="footer">
-	<script>
-		if (Date.parse(document.lastModified) != 0)
-			document.write('<p><hr><small><i>Last modified: '
-						   + document.lastModified
-						   + '</i></small>');
-	</script>
+	<br clear="all" />
+	<table cellpadding="2">
+	<tr>
+	<script language="Javascript">
+			var myDate = new Date(document.lastModified);
+			options = {
+				year: "numeric", 
+				month: "long", 
+				day: "numeric",
+				hour: "numeric",
+				minute: "numeric",
+				second: "numeric",
+			};
+			myNewDate = new Intl.DateTimeFormat("en-GB",options).format(myDate).replace(/\./g, '-');
+	  		document.write("Last modified on: " + myNewDate +"");
+	</SCRIPT>
+	</tr>
+	</table>
 </div>
 
 </body>
