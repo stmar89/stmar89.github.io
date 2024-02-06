@@ -1,0 +1,17 @@
+dd {
+    display: list-item;
+    list-style-type: disc;
+    margin-left: 20px
+}
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+dt {
+    margin-top: 5px;
+}
+.jumbotron {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+}
