@@ -1,0 +1,19 @@
+// Oruxmaps
+    - Download Oruxmaps from PlayStore.
+    - In general settings, use "Move data to public folder". all the files will be in the folder "oruxmaps" in the main storage of the phone (not protected).
+    - Install in OruxMaps the Elevate V5 map profile. This profile contains 2 variants: Elevate and Elements.
+        https://www.openandromaps.org/en/legend/elevate-mountain-hike-theme#toggle-id-1
+    - Inside OruxMaps, under MapTweaks one can choose which variant of the profile to visualize.
+    - Download the map from https://www.openandromaps.org/en/downloads/europe
+    - In theory, one can use the "Install in Orux" function directly from the phone.
+      If it does not work, download the map normally, as a zip file and extract it in "oruxmaps/maps".
+    - Hit refresh in map menú of the app. the new map should appear.
+
+// Gpx from Komoot to Oruxmaps
+    - There is an Chrome extension to download .gpx from Komoot: 
+        + log-in.
+        + "save" a path.
+        + modify it if necessary.
+        + the extension should make a button "Download Gpx" appear.
+    - Once one has a gpx file, put it on the phone in some folder.
+    - Then open it with Oruxmaps to load the gpx-track.
