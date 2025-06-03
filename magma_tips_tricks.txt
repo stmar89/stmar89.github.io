@@ -1,0 +1,13 @@
+### This is a list of tips and tricks, mostly for my own use ###
+
+* The file package/Aggregate/MonStgElt/strings.m contains a bunch of instrinsics useful to manipulate text strings MonStgElt that are not in the online handbook:
+- StripWhiteSpace -- it removes the following characters ","\n","\r","\t"
+- SubstituteString(S,T,R) -- replaces every occurrence of T in the string S with R
+- Join(S,x) -- Concatenates the strings in S, using deliminator x
+- see also LTrim, RTrim, Trim, CollateWhiteSpace, StringToLower, StringToUpper
+
+* Use XXX:Maximal; locate the code of the intrinsic XXX. If will print the path to the .m file in the installation folder with the code, or no path if XXX is in the kernel.
+
+* When developing a package use SetWarnIntrinsicOverride(true);
+
+* Pipe has a `parallel' version
