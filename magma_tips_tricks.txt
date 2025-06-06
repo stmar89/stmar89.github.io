@@ -11,3 +11,5 @@
 * When developing a package use SetWarnIntrinsicOverride(true);
 
 * Pipe has a `parallel' version
+
+* SetColumn(0) will remove the constrain on how many columns are printed on screen.
