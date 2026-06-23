@@ -4,6 +4,6 @@ List of things to ADD webpage:
 
 - talks
 
-- pubblications
+- publications
 
 - teaching duties
